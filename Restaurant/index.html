@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La Piazza Restaurant</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+<header>
+  <div class="nav">
+    <h2 class="logo">La Piazza</h2>
+
+    <div class="hamburger" onclick="toggleNav()">☰</div>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a onclick="toggleMenu()">Menu</a></li>
+      <li><a href="#about" onclick="toggleNav()">About</a></li>
+      <li><a href="#gallery" onclick="toggleNav()">Gallery</a></li>
+      <li><a href="#reservation" onclick="toggleNav()">Reservation</a></li>
+      <li><a href="feedback.html">Feedback</a></li>
+    </ul>
+  </div>
+</header>
+
+
+<section class="hero">
+  <div class="hero-slider">
+    <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe" class="slide active">
+    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4" class="slide">
+    <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9" class="slide">
+  </div>
+
+  <div class="hero-content">
+    <h1>Authentic Italian Cuisine</h1>
+    <p>Fresh ingredients · Classic recipes</p>
+    <button onclick="toggleMenu()">View Menu</button>
+  </div>
+</section>
+
+
+<section class="menu" id="menu">
+  <h2>Our Menu</h2>
+
+  
+  <div class="menu-filters">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="pizza">Pizza</button>
+    <button class="filter-btn" data-filter="pasta">Pasta</button>
+    <button class="filter-btn" data-filter="drinks">Drinks</button>
+  </div>
+
+  
+  <div class="menu-grid">
+
+    
+    <div class="menu-item pizza"
+      onclick="openModal(
+        'image.png',
+        'Margherita Pizza',
+        'Classic Italian pizza with fresh mozzarella, basil, and rich tomato sauce.',
+        '$12'
+      )">
+      <img src="image.png" alt="Margherita Pizza">
+      <h3>Margherita Pizza</h3>
+      <p>$12</p>
+    </div>
+
+    
+    <div class="menu-item pasta"
+      onclick="openModal(
+        'https://images.unsplash.com/photo-1525755662778-989d0524087e',
+        'Carbonara',
+        'Creamy pasta made with eggs, parmesan cheese, pancetta, and black pepper.',
+        '$14'
+      )">
+      <img src="https://images.unsplash.com/photo-1525755662778-989d0524087e">
+      <h3>Carbonara</h3>
+      <p>$14</p>
+    </div>
+
+    
+    <div class="menu-item pasta"
+      onclick="openModal(
+        'https://images.unsplash.com/photo-1504674900247-0877df9cc836',
+        'Lasagna',
+        'Traditional baked lasagna layered with meat sauce, béchamel, and cheese.',
+        '$15'
+      )">
+      <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836">
+      <h3>Lasagna</h3>
+      <p>$15</p>
+    </div>
+
+    
+    <div class="menu-item drinks"
+      onclick="openModal(
+        'download (9).jpeg',
+        'Italian Soda',
+        'Refreshing sparkling Italian soda with natural fruit flavors.',
+        '$5'
+      )">
+      <img src="download (9).jpeg">
+      <h3>Italian Soda</h3>
+      <p>$5</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="about fade-in" id="about">
+  <h2>About Us</h2>
+  <p>
+    La Piazza is a family-owned Italian restaurant serving authentic cuisine
+    with fresh ingredients and traditional recipes.
+  </p>
+</section>
+
+
+<section class="gallery fade-in" id="gallery">
+  <h2>Gallery</h2>
+  <div class="gallery-grid">
+    <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9">
+    <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de">
+    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4">
+  </div>
+</section>
+
+
+<section class="reservation fade-in" id="reservation">
+  <h2>Make a Reservation</h2>
+
+  <form id="reservationForm">
+    <input type="text" id="name" placeholder="Your Name">
+    <input type="email" id="email" placeholder="Email">
+    <input type="date" id="date">
+    <button type="submit">Reserve</button>
+    <p id="formMessage" class="form-message"></p>
+  </form>
+</section>
+
+<footer>
+  <p>© 2026 La Piazza Restaurant</p>
+</footer>
+
+
+<div class="menu-modal" id="menuModal">
+ <div class="menu-modal-content">
+  <span class="close-modal" onclick="closeModal()">×</span>
+
+  <img id="modalImg" src="" alt="">
+  <h3 id="modalTitle"></h3>
+  <p id="modalDesc"></p>
+  <p id="modalPrice" class="price"></p>
+
+  
+  <button class="order-btn" onclick="orderItem()">Order Now</button>
+</div>
+</div>
+
+
+
+<script>
+function toggleMenu() {
+  const menu = document.getElementById("menu");
+  menu.classList.toggle("active");
+  menu.scrollIntoView({ behavior: "smooth" });
+}
+
+function toggleNav() {
+  document.getElementById("navLinks").classList.toggle("show");
+}
+</script>
+
+<script>
+const buttons = document.querySelectorAll(".filter-btn");
+const items = document.querySelectorAll(".menu-item");
+
+buttons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    buttons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    const filter = btn.dataset.filter;
+
+    items.forEach(item => {
+      item.style.display =
+        filter === "all" || item.classList.contains(filter)
+          ? "block"
+          : "none";
+    });
+  });
+});
+</script>
+
+<script>
+const modal = document.getElementById("menuModal");
+
+function openModal(img, title, desc, price) {
+  document.getElementById("modalImg").src = img;
+  document.getElementById("modalTitle").textContent = title;
+  document.getElementById("modalDesc").textContent = desc;
+  document.getElementById("modalPrice").textContent = price;
+  modal.classList.add("show");
+}
+
+function closeModal() {
+  modal.classList.remove("show");
+}
+
+modal.addEventListener("click", e => {
+  if (e.target === modal) closeModal();
+});
+</script>
+
+<script>
+  function orderItem() {
+    const item = document.getElementById("modalTitle").textContent;
+    alert("✅ " + item + " added to order!");
+    closeModal();
+  }
+</script>
+
+<script>
+const toggleBtn = document.querySelector(".theme-toggle");
+
+function toggleTheme() {
+  document.body.classList.toggle("light");
+  toggleBtn.textContent =
+    document.body.classList.contains("light") ? "☀️" : "🌙";
+}
+</script>
+
+
+<script>
+var reservationForm = document.getElementById("reservationForm");
+
+reservationForm.addEventListener("submit", function(e){
+
+  e.preventDefault();
+
+  var name = document.getElementById("name").value.trim();
+  var email = document.getElementById("email").value.trim();
+  var date = document.getElementById("date").value;
+  var message = document.getElementById("formMessage");
+
+  if(name === ""){
+    message.textContent = "Please enter your name";
+    message.style.color = "red";
+    return;
+  }
+
+  var emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+  if(!email.match(emailPattern)){
+    message.textContent = "Please enter a valid email";
+    message.style.color = "red";
+    return;
+  }
+
+  if(date === ""){
+    message.textContent = "Please select a reservation date";
+    message.style.color = "red";
+    return;
+  }
+
+  alert("Your table reservation is confirmed!");
+  message.textContent = "Reservation successful!";
+  message.style.color = "green";
+
+  reservationForm.reset();
+});
+</script>
+
+
+<script>
+var today = new Date();
+var date = today.toISOString().split("T")[0];
+document.getElementById("date").setAttribute("min", date);
+</script>
+
+</body>
+</html>
